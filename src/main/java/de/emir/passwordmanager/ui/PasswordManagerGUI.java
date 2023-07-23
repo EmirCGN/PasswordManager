@@ -28,7 +28,13 @@ public class PasswordManagerGUI extends JFrame {
                 try {
                         UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
                         UIManager.put("nimbusBase", new Color(18, 30, 49));
-                        // ... (Other UI manager settings)
+                        UIManager.put("nimbusBlueGrey", new Color(140, 167, 191));
+                        UIManager.put("control", new Color(40, 40, 40));
+                        UIManager.put("text", new Color(0, 0, 0));
+                        UIManager.put("nimbusLightBackground", new Color(18, 30, 49));
+                        UIManager.put("nimbusSelectionBackground", new Color(140, 167, 191));
+                        UIManager.put("nimbusOrange", new Color(200, 200, 200)); // Schaltflächen-Textfarbe
+                        UIManager.put("nimbusSelectedText", new Color(0, 0, 0)); // Selektierter Text (Kontrast)
                 } catch (Exception e) {
                         e.printStackTrace();
                 }
@@ -102,7 +108,7 @@ public class PasswordManagerGUI extends JFrame {
 
         private String generateRandomPassword() {
                 int passwordLength = 12; // Set the desired password length
-                String allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                String allowedChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!+-/*@€";
                 SecureRandom random = new SecureRandom();
                 StringBuilder password = new StringBuilder(passwordLength);
                 for (int i = 0; i < passwordLength; i++) {
@@ -156,7 +162,6 @@ public class PasswordManagerGUI extends JFrame {
                         }
                 }
         }
-
         private void deleteSelectedLogin() {
                 int selectedIndex = loginList.getSelectedIndex();
                 if (selectedIndex != -1) {
@@ -204,6 +209,19 @@ public class PasswordManagerGUI extends JFrame {
                 for (LoginData login : filteredLogins) {
                         listModel.addElement(login);
                 }
+        }
+        private void updateDashboardLabel(String selectedType) {
+                String labelText;
+                if (selectedType.equals("Website")) {
+                        labelText = "Dashboard: Web";
+                } else if (selectedType.equals("Email")) {
+                        labelText = "Dashboard: Email";
+                } else if (selectedType.equals("Application")) {
+                        labelText = "Dashboard: Application";
+                } else {
+                        labelText = "Dashboard: All";
+                }
+                dashboardLabel.setText(labelText);
         }
 
 }
